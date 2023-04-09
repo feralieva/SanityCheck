@@ -1,9 +1,10 @@
 import pytest
-from codemonsters_api_checks import config
+import requests
+from codemonsters_api_checks.config import config
 
 # Make a request to the payment endpoint with valid data
 def test_valid_payment():
-    url = f"{config.endpoint}/payment_transactions"
+    url = f"{config['endpoint']}/payment_transactions"
     headers = {'Authorization': 'Basic 7D2BAF1CF37B13E2069D6956105BD0E739499BDB'}
     data = {
         'amount': '10.00',
@@ -20,7 +21,7 @@ def test_valid_payment():
     
 # Make a request to the payment endpoint with invalid authentication
 def test_invalid_auth_payment():
-    url = f"{config.endpoint}/payment_transactions"
+    url = f"{config['endpoint']}/payment_transactions"
     headers = {'Authorization': 'Basic abcdefg1234567890'}
     data = {
         'amount': '10.00',
@@ -36,7 +37,7 @@ def test_invalid_auth_payment():
     
 # Make a request to the void endpoint with a non-existent payment ID
 def test_nonexistent_void():
-    url = f"{config.endpoint}/payment_transactions"
+    url = f"{config['endpoint']}/payment_transactions"
     headers = {'Authorization': 'Basic 7D2BAF1CF37B13E2069D6956105BD0E739499BDB'}
     data = {'reference_id': '0e08644635ccb520c2eeb54f33865660'}
     response = requests.post(url, headers=headers, json=data)
@@ -45,7 +46,7 @@ def test_nonexistent_void():
     
 # Make a request to the void endpoint with an existing void ID
 def test_existing_void():
-    url = f"{config.endpoint}/payment_transactions"
+    url = f"{config['endpoint']}/payment_transactions"
     headers = {'Authorization': 'Basic 7D2BAF1CF37B13E2069D6956105BD0E739499BDB'}
     data = {'reference_id': '0e08644635ccb520c2eeb54f33865660'}
     response = requests.post(url, headers=headers, json=data)
@@ -54,7 +55,7 @@ def test_existing_void():
 
 # Make a request to the void endpoint for nonexisting payment
 def test_nonexisting_payment_void():
-    url = f"{config.endpoint}/payment_transactions"
+    url = f"{config['endpoint']}/payment_transactions"
     headers = {'Authorization': 'Basic 7D2BAF1CF37B13E2069D6956105BD0E739499BDB'}
     data = {'reference_id': '0e08644635ccb520c2eeb54f33865668'}
     response = requests.post(url, headers=headers, json=data)
