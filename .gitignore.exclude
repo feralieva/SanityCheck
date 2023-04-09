@@ -1,0 +1,13 @@
+# Ignore all binary and library files
+bin/*
+include/*
+lib/*
+pyvenv.cfg
+
+# Ignore all log and tmp files
+/log/*
+/tmp/*
+
+codemonsters-api-checks/tests/__pycache__/
+codemonsters_api_checks/__pycache__/
+.pytest_cache
