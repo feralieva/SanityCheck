@@ -8,6 +8,6 @@ pyvenv.cfg
 /log/*
 /tmp/*
 
-codemonsters-api-checks/tests/__pycache__/
+codemonsters_api_checks/tests/__pycache__/
 codemonsters_api_checks/__pycache__/
 .pytest_cache
