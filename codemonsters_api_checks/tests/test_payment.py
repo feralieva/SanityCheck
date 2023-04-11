@@ -3,6 +3,7 @@ import requests
 from codemonsters_api_checks.config import config
 
 URL_TRANSACTIONS = f"{config['endpoint']}/payment_transactions"
+UNIQUE_ID = ""
 
 def get_basic_authentication():
     username = f"{config['username']}"
@@ -20,11 +21,11 @@ def test_valid_payment():
         'exp_date': '1223',
         'cvv': '123',
     }
-    response = requests.post(URL_TRANSACTIONS, headers=headers, json=payment_data)
+    response = requests.post(URL_TRANSACTIONS, headers=headers, json=data)
     assert response.status_code == 200
     assert response.json()['status'] == 'approved'
     assert 'unique_id' in response.json
-    unique_id = response.json()['unique_id']
+    UNIQUE_ID = response.json()['unique_id']
     
 # Make a request to the payment endpoint with invalid authentication
 def test_invalid_auth_payment():
@@ -53,7 +54,7 @@ def test_nonexistent_void():
 # Make a request to the void endpoint with an existing void ID
 def test_existing_void():
     headers = get_basic_authentication()
-    data = {'reference_id': unique_id}
+    data = {'reference_id': UNIQUE_ID}
     response = requests.post(URL_TRANSACTIONS, headers=headers, json=data)
     assert response.status_code == 200
     assert response.json()['message'] == 'Payment already voided'
